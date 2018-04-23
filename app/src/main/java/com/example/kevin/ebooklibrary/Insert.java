@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class Insert extends AppCompatActivity {
     final int ACTIVITY_CHOOSE_FILE = 1;
     final int ACTIVITY_CHOOSE_COVER = 2;
@@ -14,6 +16,7 @@ public class Insert extends AppCompatActivity {
     private SQLiteDatabase db;
     private String filePath;
     private String coverPath;
+    private ArrayList<String> tags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
