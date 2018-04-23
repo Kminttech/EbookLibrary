@@ -5,12 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 public class BooksDisplay extends AppCompatActivity {
 
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
+    private Cursor data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +18,31 @@ public class BooksDisplay extends AppCompatActivity {
         Intent info = getIntent();
         String query = info.getStringExtra("query");
         db = SQLiteDatabase.openDatabase("EBookLib.db", null, 0);
-        Cursor data = db.rawQuery( query,null);
-        RecyclerView display = (RecyclerView) findViewById(R.id.bookList);
-        display.setLayoutManager(new GridLayoutManager(this, 2));
-        while (data.moveToNext()){
-
-        }
+        data = db.rawQuery( query,null);
+        data.moveToFirst();
         setContentView(R.layout.activity_books);
+    }
+
+    private void updateDisplay(){
+
+    }
+
+    public void nextBookData(View view) {
+        if(!data.moveToNext()){
+            data.moveToFirst();
+        }
+        updateDisplay();
+    }
+
+    public void prevBookData(View view) {
+        if(!data.moveToPrevious()){
+            data.moveToLast();
+        }
+        updateDisplay();
+    }
+
+    public void launchMainMenu(View view) {
+        Intent nextIntent = new Intent( this, MainActivity.class);
+        startActivity(nextIntent);
     }
 }

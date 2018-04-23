@@ -24,7 +24,7 @@
         android:id="@+id/enterLastName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
@@ -39,7 +39,7 @@
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Author First Name"
@@ -68,6 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
+        android:onClick="selectFile"
         android:text="Select File"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/enterLastName" />
@@ -78,6 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="4dp"
+        android:onClick="selectCover"
         android:text="Select Cover"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectFile" />
@@ -116,6 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="4dp"
+        android:onClick="addTag"
         android:text="Add Tag"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectCover" />
@@ -124,11 +127,13 @@
         android:id="@+id/tagListDisplay"
         android:layout_width="353dp"
         android:layout_height="125dp"
+        android:layout_marginBottom="9dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Tags: "
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/returnBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newTagEntry" />
@@ -138,10 +143,13 @@
         android:layout_width="173dp"
         android:layout_height="83dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginStart="16dp"
+        android:onClick="launchMainMenu"
         android:text="Return"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/confirmBtn"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -150,9 +158,12 @@
         android:layout_height="83dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="4dp"
+        android:onClick="confirmEntry"
         android:text="Confirm Entry"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/returnBtn" />
 
 </android.support.constraint.ConstraintLayout>
