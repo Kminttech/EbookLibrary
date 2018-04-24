@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Author Last Name"
         android:inputType="textPersonName"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Author First Name"
         android:inputType="textPersonName"
@@ -54,35 +54,34 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="100dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:text="File"
         android:textSize="26sp"
         app:layout_constraintEnd_toStartOf="@+id/selectFile"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterFirstName" />
+        tools:layout_editor_absoluteY="159dp" />
 
     <Button
         android:id="@+id/selectFile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
         android:onClick="selectFile"
         android:text="Select File"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterLastName" />
+        app:layout_constraintBottom_toTopOf="@+id/selectCover"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/selectCover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="4dp"
         android:onClick="selectCover"
         android:text="Select Cover"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectFile" />
+        app:layout_constraintBottom_toTopOf="@+id/addTag"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/displayCoverPath"
@@ -116,24 +115,22 @@
         android:id="@+id/addTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="4dp"
         android:onClick="addTag"
         android:text="Add Tag"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectCover" />
+        app:layout_constraintBottom_toTopOf="@+id/tagListDisplay"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tagListDisplay"
         android:layout_width="353dp"
-        android:layout_height="125dp"
-        android:layout_marginBottom="9dp"
+        android:layout_height="97dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Tags: "
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/returnBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newTagEntry" />
@@ -165,5 +162,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/returnBtn" />
+
+    <EditText
+        android:id="@+id/enterSeries"
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="Series"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterLastName" />
 
 </android.support.constraint.ConstraintLayout>
