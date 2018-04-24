@@ -97,10 +97,10 @@ public class Insert extends AppCompatActivity {
         String[] authorValues = new String[2];
         authorValues[0] = firstNameEntry.getText().toString();
         authorValues[1] = lastNameEntry.getText().toString();
-        Cursor authorInfo = db.rawQuery("SELECT AuthorID FROM Author WHERE FirstName = ?, LastName = ?", authorValues);
+        Cursor authorInfo = db.rawQuery("SELECT AuthorID FROM Author WHERE FirstName = ? AND LastName = ?", authorValues);
         if(!authorInfo.moveToFirst()){
             db.execSQL("INSERT INTO Author (FirstName, LastName) VALUES (?, ?)", authorValues);
-            authorInfo = db.rawQuery("SELECT AuthorID FROM Author WHERE FirstName = ?, LastName = ?", authorValues);
+            authorInfo = db.rawQuery("SELECT AuthorID FROM Author WHERE FirstName = ? AND LastName = ?", authorValues);
             authorInfo.moveToFirst();
         }
         String[] seriesValues = new String[1];
@@ -108,7 +108,7 @@ public class Insert extends AppCompatActivity {
         Cursor seriesInfo = db.rawQuery("SELECT SeriesID FROM Series WHERE SeriesName = ?", seriesValues);
         if(!seriesInfo.moveToFirst()){
             db.execSQL("INSERT INTO Series (SeriesName) VALUES (?)", seriesValues);
-            seriesInfo = db.rawQuery("SELECT AuthorID FROM Author WHERE FirstName = ?, LastName = ?", authorValues);
+            seriesInfo = db.rawQuery("SELECT AuthorID FROM Author WHERE FirstName = ? AND LastName = ?", authorValues);
             seriesInfo.moveToFirst();
         }
         String[] bookValues = new String[3];
@@ -116,7 +116,7 @@ public class Insert extends AppCompatActivity {
         bookValues[1] = filePath;
         bookValues[2] = coverPath;
         db.execSQL("INSERT INTO Book (Title, File, Cover) VALUES (?, ?, ?)", bookValues);
-        Cursor bookInfo = db.rawQuery("SELECT BookID FROM Book WHERE Title = ?, File = ?, Cover = ?", bookValues);
+        Cursor bookInfo = db.rawQuery("SELECT BookID FROM Book WHERE Title = ? AND File = ? AND Cover = ?", bookValues);
         bookInfo.moveToFirst();
         int bookID = bookInfo.getInt(bookInfo.getColumnIndex("BookID"));
         int authorID = authorInfo.getInt(authorInfo.getColumnIndex("AuthorID"));
@@ -126,9 +126,24 @@ public class Insert extends AppCompatActivity {
         for(int curTagID : tagIDs){
             db.execSQL("INSERT INTO BookTag (BookID, TagID) VALUES (" + bookID + "," + curTagID + ")");
         }
+        resetInterface();
+    }
+
+    public void resetInterface(){
+        filePath = null;
+        coverPath = null;
+        tagIDs = new ArrayList<>();
+        titleEntry.setText("");
+        seriesEntry.setText("");
+        firstNameEntry.setText("");
+        lastNameEntry.setText("");
+        fileDisplay.setText("File");
+        coverDisplay.setText("Cover");
+        tagDisplay.setText("Tags: ");
     }
 
     public void launchMainMenu(View view) {
+        db.close();
         Intent nextIntent = new Intent( this, MainActivity.class);
         startActivity(nextIntent);
     }

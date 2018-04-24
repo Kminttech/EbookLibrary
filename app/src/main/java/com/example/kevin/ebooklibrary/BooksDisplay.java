@@ -42,6 +42,7 @@ public class BooksDisplay extends AppCompatActivity {
     }
 
     public void launchMainMenu(View view) {
+        db.close();
         Intent nextIntent = new Intent( this, MainActivity.class);
         startActivity(nextIntent);
     }
