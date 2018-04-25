@@ -5,12 +5,31 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity
 public class Book {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int bookID;
-
     private String title;
-
     private String file;
-
     private String cover;
+
+    public Book(String title,String file,String cover){
+        this.title = title;
+        this.file = file;
+        this.cover = cover;
+    }
+
+    public int getBookID() {
+        return bookID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public String getCover() {
+        return cover;
+    }
 }

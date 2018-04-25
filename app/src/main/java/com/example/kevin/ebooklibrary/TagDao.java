@@ -12,6 +12,9 @@ public interface TagDao {
     @Query("SELECT * FROM Tag")
     List<Tag> getAll();
 
+    @Query("SELECT * FROM Tag WHERE descriptor = :desc LIMIT 1")
+    Tag getByDescriptor(String desc);
+
     @Insert
     void insertAll(Tag... tags);
 

@@ -6,9 +6,21 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity
 public class Series {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int seriesID;
 
     @ColumnInfo(name = "series_name")
     private String seriesName;
+
+    public Series(String seriesName){
+        this.seriesName = seriesName;
+    }
+
+    public int getSeriesID() {
+        return seriesID;
+    }
+
+    public String getSeriesName() {
+        return seriesName;
+    }
 }

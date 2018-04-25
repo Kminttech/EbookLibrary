@@ -1,5 +1,7 @@
 package com.example.kevin.ebooklibrary;
 
+import android.arch.persistence.room.Room;
+import android.arch.persistence.room.RoomDatabase;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,10 +17,8 @@ import java.util.ArrayList;
 public class Insert extends AppCompatActivity {
     final int ACTIVITY_CHOOSE_FILE = 1;
     final int ACTIVITY_CHOOSE_COVER = 2;
-    private static String DB_PATH = "/src/main/assets/com.example.kevin.ebooklibrary/";
-    private static String DB_NAME = "EbookLib.db";
 
-    private SQLiteDatabase db;
+    private EBookDatabase db;
     private Uri filePath;
     private Uri coverPath;
     private ArrayList<Integer> tagIDs;
@@ -34,8 +34,7 @@ public class Insert extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String myPath = DB_PATH + DB_NAME;
-        db = SQLiteDatabase.openDatabase(myPath, null, 0);
+        db = Room.databaseBuilder(getApplicationContext(),EBookDatabase.class, "EbookLib").build();
         tagIDs = new ArrayList<>();
         titleEntry = findViewById(R.id.enterTitle);
         firstNameEntry = findViewById(R.id.enterFirstName);
@@ -85,16 +84,16 @@ public class Insert extends AppCompatActivity {
     }
 
     public void addTag(View view) {
-        String[] req = new String[1];
-        req[0] = tagEntry.getText().toString();
-        Cursor tagCheck = db.rawQuery("SELECT TagID FROM Tag WHERE Descriptor = ?", req);
-        if(!tagCheck.moveToNext()){
-            db.execSQL("INSERT INTO Tag (Descriptor) VALUES (?)", req);
-            tagCheck = db.rawQuery("SELECT TagID FROM Tag WHERE Descriptor = ?", req);
-            tagCheck.moveToNext();
+        String curDesc = tagEntry.getText().toString();
+        Tag curTag = db.tagDao().getByDescriptor(curDesc);
+        if(curTag == null){
+            //db.execSQL("INSERT INTO Tag (Descriptor) VALUES (?)", req);
+            curTag = new Tag(curDesc);
+            db.tagDao().insertAll(curTag);
+
         }
         tagIDs.add(tagCheck.getInt(tagCheck.getColumnIndex("Descriptor")));
-        tagDisplay.setText(tagDisplay.getText() + " " + req[0]);
+        tagDisplay.setText(tagDisplay.getText() + " " + curDesc);
     }
 
     public void confirmEntry(View view) {
