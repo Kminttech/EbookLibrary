@@ -6,11 +6,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class BooksDisplay extends AppCompatActivity {
 
     private SQLiteDatabase db;
     private Cursor data;
+    ImageView coverImageDisplay;
+    TextView bookInfoDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +24,10 @@ public class BooksDisplay extends AppCompatActivity {
         db = SQLiteDatabase.openDatabase("EBookLib.db", null, 0);
         data = db.rawQuery( query,null);
         data.moveToFirst();
+        coverImageDisplay = findViewById(R.id.coverDisplay);
+        bookInfoDisplay = findViewById(R.id.infoDisplay);
         setContentView(R.layout.activity_books);
+        updateDisplay();
     }
 
     private void updateDisplay(){

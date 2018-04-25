@@ -8,16 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.net.Uri;
 
 import java.util.ArrayList;
 
 public class Insert extends AppCompatActivity {
     final int ACTIVITY_CHOOSE_FILE = 1;
     final int ACTIVITY_CHOOSE_COVER = 2;
+    private static String DB_PATH = "/src/main/assets/com.example.kevin.ebooklibrary/";
+    private static String DB_NAME = "EbookLib.db";
 
     private SQLiteDatabase db;
-    private String filePath;
-    private String coverPath;
+    private Uri filePath;
+    private Uri coverPath;
     private ArrayList<Integer> tagIDs;
     private EditText titleEntry;
     private EditText firstNameEntry;
@@ -31,7 +34,8 @@ public class Insert extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db = SQLiteDatabase.openDatabase("EBookLib.db", null, 0);
+        String myPath = DB_PATH + DB_NAME;
+        db = SQLiteDatabase.openDatabase(myPath, null, 0);
         tagIDs = new ArrayList<>();
         titleEntry = findViewById(R.id.enterTitle);
         firstNameEntry = findViewById(R.id.enterFirstName);
@@ -67,14 +71,14 @@ public class Insert extends AppCompatActivity {
         switch(requestCode) {
             case ACTIVITY_CHOOSE_FILE: {
                 if (resultCode == RESULT_OK){
-                    filePath = data.getData().getPath();
-                    fileDisplay.setText(filePath);
+                    filePath = data.getData();
+                    fileDisplay.setText(filePath.toString());
                 }
             }
             case ACTIVITY_CHOOSE_COVER: {
                 if (requestCode == RESULT_OK){
-                    coverPath = data.getData().getPath();
-                    coverDisplay.setText(coverPath);
+                    coverPath = data.getData();
+                    coverDisplay.setText(coverPath.toString());
                 }
             }
         }
@@ -113,8 +117,8 @@ public class Insert extends AppCompatActivity {
         }
         String[] bookValues = new String[3];
         bookValues[0] = titleEntry.getText().toString();
-        bookValues[1] = filePath;
-        bookValues[2] = coverPath;
+        bookValues[1] = filePath.toString();
+        bookValues[2] = coverPath.toString();
         db.execSQL("INSERT INTO Book (Title, File, Cover) VALUES (?, ?, ?)", bookValues);
         Cursor bookInfo = db.rawQuery("SELECT BookID FROM Book WHERE Title = ? AND File = ? AND Cover = ?", bookValues);
         bookInfo.moveToFirst();

@@ -18,6 +18,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:color/background_light" />
 
+    <TextView
+        android:id="@+id/infoDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="151dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="14dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/selectBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coverDisplay" />
+
+    <Button
+        android:id="@+id/mainMenuBtn"
+        android:layout_width="66dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="launchMainMenu"
+        android:text="Main Menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/nextBtn"
         android:layout_width="90dp"
@@ -51,30 +76,4 @@
         android:text="Previous"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/infoDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="9dp"
-        android:layout_marginEnd="151dp"
-        android:layout_marginStart="151dp"
-        android:layout_marginTop="14dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/selectBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coverDisplay" />
-
-    <Button
-        android:id="@+id/mainMenuBtn"
-        android:layout_width="66dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="launchMainMenu"
-        android:text="Main Menu"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
