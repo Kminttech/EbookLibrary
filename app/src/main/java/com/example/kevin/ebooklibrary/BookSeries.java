@@ -6,10 +6,10 @@ import android.arch.persistence.room.ForeignKey;
 @Entity(primaryKeys = { "bookID", "seriesID" },
         foreignKeys = {
                 @ForeignKey(entity = Book.class,
-                        parentColumns = "id",
+                        parentColumns = "bookID",
                         childColumns = "bookID"),
-                @ForeignKey(entity = Author.class,
-                        parentColumns = "id",
+                @ForeignKey(entity = Series.class,
+                        parentColumns = "seriesID",
                         childColumns = "seriesID")
         })
 public class BookSeries {

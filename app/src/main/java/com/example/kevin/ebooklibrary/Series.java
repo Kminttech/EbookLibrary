@@ -23,4 +23,8 @@ public class Series {
     public String getSeriesName() {
         return seriesName;
     }
+
+    public void setSeriesID(int seriesID) {
+        this.seriesID = seriesID;
+    }
 }

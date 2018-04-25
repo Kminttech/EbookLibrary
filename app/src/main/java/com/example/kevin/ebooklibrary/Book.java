@@ -32,4 +32,8 @@ public class Book {
     public String getCover() {
         return cover;
     }
+
+    public void setBookID(int bookID) {
+        this.bookID = bookID;
+    }
 }

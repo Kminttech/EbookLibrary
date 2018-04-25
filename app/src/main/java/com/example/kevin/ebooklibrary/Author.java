@@ -31,4 +31,8 @@ public class Author {
     public String getLastName(){
         return lastName;
     }
+
+    public void setAuthorID(int authorID) {
+        this.authorID = authorID;
+    }
 }

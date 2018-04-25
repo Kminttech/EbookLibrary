@@ -21,4 +21,8 @@ public class Tag {
     public String getDescriptor() {
         return descriptor;
     }
+
+    public void setTagID(int tagID) {
+        this.tagID = tagID;
+    }
 }

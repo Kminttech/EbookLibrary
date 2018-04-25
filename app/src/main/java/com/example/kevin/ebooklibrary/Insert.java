@@ -92,42 +92,36 @@ public class Insert extends AppCompatActivity {
             db.tagDao().insertAll(curTag);
 
         }
-        tagIDs.add(tagCheck.getInt(tagCheck.getColumnIndex("Descriptor")));
+        tagIDs.add(curTag.getTagID());
         tagDisplay.setText(tagDisplay.getText() + " " + curDesc);
     }
 
     public void confirmEntry(View view) {
-        String[] authorValues = new String[2];
-        authorValues[0] = firstNameEntry.getText().toString();
-        authorValues[1] = lastNameEntry.getText().toString();
-        Cursor authorInfo = db.rawQuery("SELECT AuthorID FROM Author WHERE FirstName = ? AND LastName = ?", authorValues);
-        if(!authorInfo.moveToFirst()){
-            db.execSQL("INSERT INTO Author (FirstName, LastName) VALUES (?, ?)", authorValues);
-            authorInfo = db.rawQuery("SELECT AuthorID FROM Author WHERE FirstName = ? AND LastName = ?", authorValues);
-            authorInfo.moveToFirst();
+        String curFirstName = firstNameEntry.getText().toString();
+        String curLastName = lastNameEntry.getText().toString();
+        Author curAuthor = db.authorDao().findByName(curFirstName, curLastName);
+        if(curAuthor == null){
+            curAuthor = new Author(curFirstName, curLastName);
+            db.authorDao().insertAll(curAuthor);
         }
-        String[] seriesValues = new String[1];
-        seriesValues[0] = seriesEntry.getText().toString();
-        Cursor seriesInfo = db.rawQuery("SELECT SeriesID FROM Series WHERE SeriesName = ?", seriesValues);
-        if(!seriesInfo.moveToFirst()){
-            db.execSQL("INSERT INTO Series (SeriesName) VALUES (?)", seriesValues);
-            seriesInfo = db.rawQuery("SELECT AuthorID FROM Author WHERE FirstName = ? AND LastName = ?", authorValues);
-            seriesInfo.moveToFirst();
+        String curSeriesName = seriesEntry.getText().toString();
+        Series curSeries = db.seriesDao().findByName(curSeriesName);
+        if(curSeries == null) {
+            curSeries = new Series(curSeriesName);
+            db.seriesDao().insertAll(curSeries);
         }
-        String[] bookValues = new String[3];
-        bookValues[0] = titleEntry.getText().toString();
-        bookValues[1] = filePath.toString();
-        bookValues[2] = coverPath.toString();
-        db.execSQL("INSERT INTO Book (Title, File, Cover) VALUES (?, ?, ?)", bookValues);
-        Cursor bookInfo = db.rawQuery("SELECT BookID FROM Book WHERE Title = ? AND File = ? AND Cover = ?", bookValues);
-        bookInfo.moveToFirst();
-        int bookID = bookInfo.getInt(bookInfo.getColumnIndex("BookID"));
-        int authorID = authorInfo.getInt(authorInfo.getColumnIndex("AuthorID"));
-        int seriesID = seriesInfo.getInt(seriesInfo.getColumnIndex("SeriesID"));
-        db.execSQL("INSERT INTO Wrote (BookID, AuthorID) VALUES (" + bookID + "," + authorID + ")");
-        db.execSQL("INSERT INTO BookSeries (BookID, SeriesID) VALUES (" + bookID + "," + seriesID + ")");
+        String curTitle = titleEntry.getText().toString();
+        String curFile = filePath.toString();
+        String curCover = coverPath.toString();
+        Book curBook = new Book(curTitle, curFile, curCover);
+        db.bookDao().insertAll(curBook);
+        int bookID = curBook.getBookID();
+        int authorID = curAuthor.getAuthorID();
+        int seriesID = curSeries.getSeriesID();
+        db.wroteDao().insertAll(new Wrote(bookID, authorID));
+        db.bookSeriesDao().insertAll(new BookSeries(bookID, seriesID));
         for(int curTagID : tagIDs){
-            db.execSQL("INSERT INTO BookTag (BookID, TagID) VALUES (" + bookID + "," + curTagID + ")");
+            db.bookTagDao().insertAll(new BookTag(bookID, curTagID));
         }
         resetInterface();
     }

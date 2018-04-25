@@ -12,6 +12,9 @@ public interface SeriesDao {
     @Query("SELECT * FROM Series")
     List<Series> getAll();
 
+    @Query("SELECT * FROM Series WHERE series_name = :seriesName LIMIT 1")
+    Series findByName(String seriesName);
+
     @Insert
     void insertAll(Series... series);
 
