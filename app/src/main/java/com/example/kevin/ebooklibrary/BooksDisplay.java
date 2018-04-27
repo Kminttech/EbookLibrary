@@ -2,8 +2,6 @@ package com.example.kevin.ebooklibrary;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -23,9 +21,10 @@ public class BooksDisplay extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_books);
         Intent info = getIntent();
         String queryType = info.getStringExtra("queryType");
-        db = Room.databaseBuilder(getApplicationContext(),EBookDatabase.class, "EbookLib").build();
+        db = Room.databaseBuilder(getApplicationContext(),EBookDatabase.class, "EbookLib").allowMainThreadQueries().build();
         curSelect = 0;
         if(queryType.equals("Author")){
             data = (ArrayList) db.bookDao().loadByAuthorID(info.getIntExtra("authorID", 0));
@@ -38,7 +37,6 @@ public class BooksDisplay extends AppCompatActivity {
         }
         coverImageDisplay = findViewById(R.id.coverDisplay);
         bookInfoDisplay = findViewById(R.id.infoDisplay);
-        setContentView(R.layout.activity_books);
         updateDisplay();
     }
 

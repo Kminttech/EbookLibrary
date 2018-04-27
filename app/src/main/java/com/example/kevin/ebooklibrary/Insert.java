@@ -1,10 +1,7 @@
 package com.example.kevin.ebooklibrary;
 
 import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -34,7 +31,8 @@ public class Insert extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db = Room.databaseBuilder(getApplicationContext(),EBookDatabase.class, "EbookLib").build();
+        setContentView(R.layout.activity_insert);
+        db = Room.databaseBuilder(getApplicationContext(),EBookDatabase.class, "EbookLib").allowMainThreadQueries().build();
         tagIDs = new ArrayList<>();
         titleEntry = findViewById(R.id.enterTitle);
         firstNameEntry = findViewById(R.id.enterFirstName);
@@ -44,25 +42,18 @@ public class Insert extends AppCompatActivity {
         fileDisplay = findViewById(R.id.filePathDisplay);
         coverDisplay = findViewById(R.id.displayCoverPath);
         tagDisplay = findViewById(R.id.tagListDisplay);
-        setContentView(R.layout.activity_insert);
     }
 
     public void selectFile(View view) {
-        Intent chooseFile;
-        Intent intent;
-        chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-        chooseFile.setType("file/*");
-        intent = Intent.createChooser(chooseFile, "Choose a file");
-        startActivityForResult(intent, ACTIVITY_CHOOSE_FILE);
+        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.setType("*/*");
+        startActivityForResult(Intent.createChooser(chooseFile, "Choose a file"), ACTIVITY_CHOOSE_FILE);
     }
 
     public void selectCover(View view) {
-        Intent chooseFile;
-        Intent intent;
-        chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-        chooseFile.setType("file/*");
-        intent = Intent.createChooser(chooseFile, "Choose a cover");
-        startActivityForResult(intent, ACTIVITY_CHOOSE_COVER);
+        Intent chooseCover = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseCover.setType("image/*");
+        startActivityForResult(Intent.createChooser(chooseCover, "Choose a cover"), ACTIVITY_CHOOSE_COVER);
     }
 
     @Override
@@ -73,12 +64,14 @@ public class Insert extends AppCompatActivity {
                     filePath = data.getData();
                     fileDisplay.setText(filePath.toString());
                 }
+                break;
             }
             case ACTIVITY_CHOOSE_COVER: {
-                if (requestCode == RESULT_OK){
+                if (resultCode == RESULT_OK){
                     coverPath = data.getData();
                     coverDisplay.setText(coverPath.toString());
                 }
+                break;
             }
         }
     }
@@ -87,7 +80,6 @@ public class Insert extends AppCompatActivity {
         String curDesc = tagEntry.getText().toString();
         Tag curTag = db.tagDao().getByDescriptor(curDesc);
         if(curTag == null){
-            //db.execSQL("INSERT INTO Tag (Descriptor) VALUES (?)", req);
             curTag = new Tag(curDesc);
             db.tagDao().insertAll(curTag);
 

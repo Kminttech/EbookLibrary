@@ -22,10 +22,11 @@ public class FiltersDisplay extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_filters);
         Intent info = getIntent();
         String query = info.getStringExtra("query");
         type = info.getStringExtra("filterType");
-        db = Room.databaseBuilder(getApplicationContext(),EBookDatabase.class, "EbookLib").build();
+        db = Room.databaseBuilder(getApplicationContext(),EBookDatabase.class, "EbookLib").allowMainThreadQueries().build();
         curSelect = 0;
         if(type.equals("Author")){
             data = (ArrayList) db.authorDao().getAll();
@@ -37,7 +38,6 @@ public class FiltersDisplay extends AppCompatActivity {
         primary = findViewById(R.id.primaryDataDisplay);
         secondary = findViewById(R.id.secondaryDataDisplay);
         tertiary = findViewById(R.id.thirdDataDisplay);
-        setContentView(R.layout.activity_filters);
         updateDisplay();
     }
 
