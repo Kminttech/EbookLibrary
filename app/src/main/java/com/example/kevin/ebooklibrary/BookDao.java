@@ -15,8 +15,14 @@ public interface BookDao {
     @Query("SELECT * FROM Book WHERE bookID IN (:bookIds)")
     List<Book> loadAllByIds(int[] bookIds);
 
-    @Query("SELECT * FROM Book NATURAL JOIN WROTE WHERE authorID = :aID ORDER BY Title DESC")
+    @Query("SELECT * FROM Book NATURAL JOIN Wrote WHERE authorID = :aID ORDER BY Title DESC")
     List<Book> loadByAuthorID(int aID);
+
+    @Query("SELECT * FROM Book NATURAL JOIN BookSeries WHERE seriesID = :sID ORDER BY TITLE DESC")
+    List<Book> loadBySeriesID(int sID);
+
+    @Query("SELECT * FROM Book NATURAL JOIN BookTag WHERE tagID = :tID ORDER BY Title DESC")
+    List<Book> loadByTagID(int tID);
 
     @Insert
     void insertAll(Book... books);

@@ -51,43 +51,51 @@
         android:layout_height="90dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="15dp"
         android:onClick="nextFilterData"
         android:text="Next"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/selectBtn" />
 
     <Button
         android:id="@+id/selectBtn"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="29dp"
-        android:layout_marginStart="29dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
         android:text="Select"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/nextBtn"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/prevBtn2" />
+        app:layout_constraintStart_toEndOf="@+id/prevBtn2"
+        app:layout_constraintTop_toBottomOf="@+id/thirdDataDisplay"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/prevBtn2"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginStart="16dp"
         android:onClick="prevFilterData"
         android:text="Previous"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/selectBtn"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/mainMenuBtn"
         android:layout_width="66dp"
         android:layout_height="60dp"
+        android:layout_marginEnd="310dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:onClick="launchMainMenu"
         android:text="Main Menu"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

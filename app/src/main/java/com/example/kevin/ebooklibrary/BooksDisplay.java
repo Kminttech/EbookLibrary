@@ -1,5 +1,6 @@
 package com.example.kevin.ebooklibrary;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,10 +10,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class BooksDisplay extends AppCompatActivity {
 
-    private SQLiteDatabase db;
-    private Cursor data;
+    private EBookDatabase db;
+    private ArrayList data;
+    int curSelect;
     ImageView coverImageDisplay;
     TextView bookInfoDisplay;
 
@@ -20,10 +24,18 @@ public class BooksDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent info = getIntent();
-        String query = info.getStringExtra("query");
-        db = SQLiteDatabase.openDatabase("EBookLib.db", null, 0);
-        data = db.rawQuery( query,null);
-        data.moveToFirst();
+        String queryType = info.getStringExtra("queryType");
+        db = Room.databaseBuilder(getApplicationContext(),EBookDatabase.class, "EbookLib").build();
+        curSelect = 0;
+        if(queryType.equals("Author")){
+            data = (ArrayList) db.bookDao().loadByAuthorID(info.getIntExtra("authorID", 0));
+        }else if(queryType.equals("Series")){
+            data = (ArrayList) db.bookDao().loadBySeriesID(info.getIntExtra("seriesID", 0));
+        }else if(queryType.equals("Tag")){
+            data = (ArrayList) db.bookDao().loadByTagID(info.getIntExtra("tagID", 0));
+        }else {
+            data = (ArrayList) db.bookDao().getAll();
+        }
         coverImageDisplay = findViewById(R.id.coverDisplay);
         bookInfoDisplay = findViewById(R.id.infoDisplay);
         setContentView(R.layout.activity_books);
@@ -35,15 +47,15 @@ public class BooksDisplay extends AppCompatActivity {
     }
 
     public void nextBookData(View view) {
-        if(!data.moveToNext()){
-            data.moveToFirst();
+        if(++curSelect >= data.size()){
+            curSelect = 0;
         }
         updateDisplay();
     }
 
     public void prevBookData(View view) {
-        if(!data.moveToPrevious()){
-            data.moveToLast();
+        if(--curSelect < 0){
+            curSelect = data.size()-1;
         }
         updateDisplay();
     }
