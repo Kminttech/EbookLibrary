@@ -24,7 +24,6 @@ public class FiltersDisplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filters);
         Intent info = getIntent();
-        String query = info.getStringExtra("query");
         type = info.getStringExtra("filterType");
         db = Room.databaseBuilder(getApplicationContext(),EBookDatabase.class, "EbookLib").allowMainThreadQueries().build();
         curSelect = 0;

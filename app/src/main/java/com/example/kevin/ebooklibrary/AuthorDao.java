@@ -15,6 +15,9 @@ public interface AuthorDao {
     @Query("SELECT * FROM Author WHERE first_name LIKE :first AND last_name LIKE :last LIMIT 1")
     Author findByName(String first, String last);
 
+    @Query("SELECT * FROM Author NATURAL JOIN Wrote WHERE bookID = :bID LIMIT 1")
+    Author findAuthorOfBook(int bID);
+
     @Insert
     void insertAll(Author... authors);
 

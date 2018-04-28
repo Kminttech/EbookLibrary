@@ -15,6 +15,9 @@ public interface BookDao {
     @Query("SELECT * FROM Book WHERE bookID IN (:bookIds)")
     List<Book> loadAllByIds(int[] bookIds);
 
+    @Query("SELECT * FROM Book WHERE title = :t AND file = :f AND cover = :c LIMIT 1")
+    Book loadByData(String t, String f, String c);
+
     @Query("SELECT * FROM Book NATURAL JOIN Wrote WHERE authorID = :aID ORDER BY Title DESC")
     List<Book> loadByAuthorID(int aID);
 

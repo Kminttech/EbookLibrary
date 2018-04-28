@@ -2,6 +2,9 @@ package com.example.kevin.ebooklibrary;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,7 +16,7 @@ import java.util.ArrayList;
 public class BooksDisplay extends AppCompatActivity {
 
     private EBookDatabase db;
-    private ArrayList data;
+    private ArrayList<Book> data;
     int curSelect;
     ImageView coverImageDisplay;
     TextView bookInfoDisplay;
@@ -41,7 +44,11 @@ public class BooksDisplay extends AppCompatActivity {
     }
 
     private void updateDisplay(){
-
+        Bitmap myImg = BitmapFactory.decodeFile(data.get(curSelect).getCover());
+        coverImageDisplay.setImageBitmap(myImg);
+        Author curAuthor = db.authorDao().findAuthorOfBook(data.get(curSelect).getBookID());
+        Series curSeries = db.seriesDao().findSeriesOfBook(data.get(curSelect).getBookID());
+        bookInfoDisplay.setText("Author: " + curAuthor.getFirstName() + " " + curAuthor.getLastName() + "   Series: " + curSeries.getSeriesName());
     }
 
     public void nextBookData(View view) {

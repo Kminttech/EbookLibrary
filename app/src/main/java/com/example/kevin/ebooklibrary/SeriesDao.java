@@ -15,6 +15,9 @@ public interface SeriesDao {
     @Query("SELECT * FROM Series WHERE series_name = :seriesName LIMIT 1")
     Series findByName(String seriesName);
 
+    @Query("SELECT * FROM Series NATURAL JOIN BookSeries WHERE bookID = :bID LIMIT 1")
+    Series findSeriesOfBook(int bID);
+
     @Insert
     void insertAll(Series... series);
 

@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.net.Uri;
 
 import java.util.ArrayList;
 
@@ -16,8 +15,8 @@ public class Insert extends AppCompatActivity {
     final int ACTIVITY_CHOOSE_COVER = 2;
 
     private EBookDatabase db;
-    private Uri filePath;
-    private Uri coverPath;
+    private String filePath;
+    private String coverPath;
     private ArrayList<Integer> tagIDs;
     private EditText titleEntry;
     private EditText firstNameEntry;
@@ -61,15 +60,15 @@ public class Insert extends AppCompatActivity {
         switch(requestCode) {
             case ACTIVITY_CHOOSE_FILE: {
                 if (resultCode == RESULT_OK){
-                    filePath = data.getData();
-                    fileDisplay.setText(filePath.toString());
+                    filePath = data.getData().getPath();
+                    fileDisplay.setText(filePath);
                 }
                 break;
             }
             case ACTIVITY_CHOOSE_COVER: {
                 if (resultCode == RESULT_OK){
-                    coverPath = data.getData();
-                    coverDisplay.setText(coverPath.toString());
+                    coverPath = data.getData().getPath();
+                    coverDisplay.setText(coverPath);
                 }
                 break;
             }
@@ -82,9 +81,10 @@ public class Insert extends AppCompatActivity {
         if(curTag == null){
             curTag = new Tag(curDesc);
             db.tagDao().insertAll(curTag);
-
+            curTag = db.tagDao().getByDescriptor(curDesc);
         }
         tagIDs.add(curTag.getTagID());
+        tagEntry.setText("");
         tagDisplay.setText(tagDisplay.getText() + " " + curDesc);
     }
 
@@ -95,18 +95,21 @@ public class Insert extends AppCompatActivity {
         if(curAuthor == null){
             curAuthor = new Author(curFirstName, curLastName);
             db.authorDao().insertAll(curAuthor);
+            curAuthor = db.authorDao().findByName(curFirstName, curLastName);
         }
         String curSeriesName = seriesEntry.getText().toString();
         Series curSeries = db.seriesDao().findByName(curSeriesName);
         if(curSeries == null) {
             curSeries = new Series(curSeriesName);
             db.seriesDao().insertAll(curSeries);
+            curSeries = db.seriesDao().findByName(curSeriesName);
         }
         String curTitle = titleEntry.getText().toString();
-        String curFile = filePath.toString();
-        String curCover = coverPath.toString();
+        String curFile = filePath;
+        String curCover = coverPath;
         Book curBook = new Book(curTitle, curFile, curCover);
         db.bookDao().insertAll(curBook);
+        curBook = db.bookDao().loadByData(curTitle, curFile, curCover);
         int bookID = curBook.getBookID();
         int authorID = curAuthor.getAuthorID();
         int seriesID = curSeries.getSeriesID();
@@ -126,6 +129,7 @@ public class Insert extends AppCompatActivity {
         seriesEntry.setText("");
         firstNameEntry.setText("");
         lastNameEntry.setText("");
+        tagEntry.setText("");
         fileDisplay.setText("File");
         coverDisplay.setText("Cover");
         tagDisplay.setText("Tags: ");
