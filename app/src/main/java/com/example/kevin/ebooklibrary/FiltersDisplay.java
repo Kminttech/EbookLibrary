@@ -37,7 +37,9 @@ public class FiltersDisplay extends AppCompatActivity {
         primary = findViewById(R.id.primaryDataDisplay);
         secondary = findViewById(R.id.secondaryDataDisplay);
         tertiary = findViewById(R.id.thirdDataDisplay);
-        updateDisplay();
+        if(data.size() > 0){
+            updateDisplay();
+        }
     }
 
     private void updateDisplay(){
@@ -91,9 +93,8 @@ public class FiltersDisplay extends AppCompatActivity {
         updateDisplay();
     }
 
-    public void launchMainMenu(View view) {
+    public void closeActivity(View view) {
         db.close();
-        Intent nextIntent = new Intent( this, MainActivity.class);
-        startActivity(nextIntent);
+        finish();
     }
 }

@@ -21,7 +21,7 @@ public interface BookDao {
     @Query("SELECT * FROM Book NATURAL JOIN Wrote WHERE authorID = :aID ORDER BY Title DESC")
     List<Book> loadByAuthorID(int aID);
 
-    @Query("SELECT * FROM Book NATURAL JOIN BookSeries WHERE seriesID = :sID ORDER BY TITLE DESC")
+    @Query("SELECT * FROM Book NATURAL JOIN BookSeries WHERE seriesID = :sID ORDER BY numInSeries DESC")
     List<Book> loadBySeriesID(int sID);
 
     @Query("SELECT * FROM Book NATURAL JOIN BookTag WHERE tagID = :tID ORDER BY Title DESC")

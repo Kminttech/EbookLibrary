@@ -19,13 +19,13 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/mainMenuBtn"
-        android:layout_width="66dp"
+        android:id="@+id/btnReturn"
+        android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="launchMainMenu"
-        android:text="Main Menu"
+        android:onClick="closeActivity"
+        android:text="Return"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,7 +34,7 @@
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:onClick="nextBookData"
         android:text="Next"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +57,7 @@
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:onClick="prevBookData"
         android:text="Previous"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,10 +69,34 @@
         android:layout_height="297dp"
         android:layout_marginEnd="47dp"
         android:layout_marginStart="47dp"
-        android:layout_marginTop="69dp"
+        android:layout_marginTop="6dp"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnReturn"
         app:srcCompat="@android:color/transparent" />
+
+    <Button
+        android:id="@+id/btnAddQuote"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="8dp"
+        android:onClick="launchAddQuote"
+        android:text="Add Quote"
+        app:layout_constraintEnd_toStartOf="@+id/btnViewQuotes"
+        app:layout_constraintStart_toEndOf="@+id/btnReturn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnViewQuotes"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="launchViewQuote"
+        android:text="View Quotes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

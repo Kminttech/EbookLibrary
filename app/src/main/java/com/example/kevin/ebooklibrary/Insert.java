@@ -22,6 +22,7 @@ public class Insert extends AppCompatActivity {
     private EditText firstNameEntry;
     private EditText lastNameEntry;
     private EditText seriesEntry;
+    private EditText numInSeriesEntry;
     private EditText tagEntry;
     private TextView fileDisplay;
     private TextView coverDisplay;
@@ -37,6 +38,7 @@ public class Insert extends AppCompatActivity {
         firstNameEntry = findViewById(R.id.enterFirstName);
         lastNameEntry = findViewById(R.id.enterLastName);
         seriesEntry = findViewById(R.id.enterSeries);
+        numInSeriesEntry = findViewById(R.id.numInSeriesEntry);
         tagEntry = findViewById(R.id.newTagEntry);
         fileDisplay = findViewById(R.id.filePathDisplay);
         coverDisplay = findViewById(R.id.displayCoverPath);
@@ -113,8 +115,9 @@ public class Insert extends AppCompatActivity {
         int bookID = curBook.getBookID();
         int authorID = curAuthor.getAuthorID();
         int seriesID = curSeries.getSeriesID();
+        int numInSeries = Integer.parseInt(numInSeriesEntry.getText().toString());
         db.wroteDao().insertAll(new Wrote(bookID, authorID));
-        db.bookSeriesDao().insertAll(new BookSeries(bookID, seriesID));
+        db.bookSeriesDao().insertAll(new BookSeries(bookID, seriesID, numInSeries));
         for(int curTagID : tagIDs){
             db.bookTagDao().insertAll(new BookTag(bookID, curTagID));
         }
@@ -137,7 +140,6 @@ public class Insert extends AppCompatActivity {
 
     public void launchMainMenu(View view) {
         db.close();
-        Intent nextIntent = new Intent( this, MainActivity.class);
-        startActivity(nextIntent);
+        finish();
     }
 }

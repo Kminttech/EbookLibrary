@@ -4,13 +4,14 @@ import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class BooksDisplay extends AppCompatActivity {
@@ -40,15 +41,24 @@ public class BooksDisplay extends AppCompatActivity {
         }
         coverImageDisplay = findViewById(R.id.coverDisplay);
         bookInfoDisplay = findViewById(R.id.infoDisplay);
-        updateDisplay();
+        if(data.size() > 0){
+            updateDisplay();
+        }
     }
 
     private void updateDisplay(){
-        Bitmap myImg = BitmapFactory.decodeFile(data.get(curSelect).getCover());
-        coverImageDisplay.setImageBitmap(myImg);
+        File imgFile = new File(data.get(curSelect).getCover());
+        if(imgFile.exists()){
+            Bitmap myImg = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            coverImageDisplay.setImageBitmap(myImg);
+        }else {
+            Toast.makeText(this, "Cover File Not Found", Toast.LENGTH_LONG);
+        }
         Author curAuthor = db.authorDao().findAuthorOfBook(data.get(curSelect).getBookID());
         Series curSeries = db.seriesDao().findSeriesOfBook(data.get(curSelect).getBookID());
-        bookInfoDisplay.setText("Author: " + curAuthor.getFirstName() + " " + curAuthor.getLastName() + "   Series: " + curSeries.getSeriesName());
+        int numInSeries = db.bookSeriesDao().getNumInSeries(data.get(curSelect).getBookID());
+        int outOf = db.bookSeriesDao().getNumInSeries(data.get(curSelect).getBookID());
+        bookInfoDisplay.setText("Author: " + curAuthor.getFirstName() + " " + curAuthor.getLastName() + "   Series: " + curSeries.getSeriesName() + "(" + numInSeries +" of " + outOf + ")");
     }
 
     public void nextBookData(View view) {
@@ -65,9 +75,22 @@ public class BooksDisplay extends AppCompatActivity {
         updateDisplay();
     }
 
-    public void launchMainMenu(View view) {
-        db.close();
-        Intent nextIntent = new Intent( this, MainActivity.class);
+    public void launchAddQuote(View view) {
+        int curBookID = data.get(curSelect).getBookID();
+        Intent nextIntent = new Intent(this, AddQuote.class);
+        nextIntent.putExtra("bID", curBookID);
         startActivity(nextIntent);
+    }
+
+    public void launchViewQuote(View view) {
+        int curBookID = data.get(curSelect).getBookID();
+        Intent nextIntent = new Intent(this, ViewQuote.class);
+        nextIntent.putExtra("bID", curBookID);
+        startActivity(nextIntent);
+    }
+
+    public void closeActivity(View view) {
+        db.close();
+        finish();
     }
 }

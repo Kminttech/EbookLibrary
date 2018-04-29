@@ -15,9 +15,15 @@ import android.arch.persistence.room.ForeignKey;
 public class BookSeries {
     public final int bookID;
     public final int seriesID;
+    private int numInSeries;
 
-    public BookSeries(int bookID, int seriesID) {
+    public BookSeries(int bookID, int seriesID, int numInSeries) {
         this.bookID = bookID;
         this.seriesID = seriesID;
+        this.numInSeries = numInSeries;
+    }
+
+    public int getNumInSeries() {
+        return numInSeries;
     }
 }
