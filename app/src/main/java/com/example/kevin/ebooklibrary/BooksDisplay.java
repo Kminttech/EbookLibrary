@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
+
 public class BooksDisplay extends AppCompatActivity {
 
     private EBookDatabase db;
@@ -73,6 +74,13 @@ public class BooksDisplay extends AppCompatActivity {
             curSelect = data.size()-1;
         }
         updateDisplay();
+    }
+
+    public void viewBook(View view) {
+        String curFilePath = data.get(curSelect).getFile();
+        Intent nextIntent = new Intent(this, ReadBook.class);
+        nextIntent.putExtra("file", curFilePath);
+        startActivity(nextIntent);
     }
 
     public void launchAddQuote(View view) {

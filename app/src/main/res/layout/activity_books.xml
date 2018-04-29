@@ -47,6 +47,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="29dp"
         android:layout_marginStart="29dp"
+        android:onClick="viewBook"
         android:text="Select"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/nextBtn"
@@ -99,4 +100,5 @@
         android:text="View Quotes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
